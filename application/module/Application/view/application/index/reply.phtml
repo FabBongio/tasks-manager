@@ -5,26 +5,38 @@
     <div class="content">
         <div class="field">
             <?php
-            echo '<h3>' . $ticket->name . ' : </h3></br>';
-            echo $ticket->notes . '</br>';
+            echo '<h3>' . $main_ticket->name . ' : </h3></br>';
+            echo $main_ticket->notes . '</br>';
             ?>
             <table class="ui celled striped table">
                 <thead>
                     <tr><th colspan="2">
-                            <h3>Sous-Tâche(s)</h3>
+                            <h3>Tâche(s)</h3>
                         </th>
+                        <th>Mail</th>
                     </tr></thead>
                 <tbody>
 
-                    <?php foreach ($subtasks->data as $subtask) : ?>
+                    <?php foreach ($tickets as $ticket) : ?>
+                        <tr>
+                            <td class="collapsing"><?= $ticket->name ?></td>
+                            <td><?= $ticket->notes ?></td>
+                            <td>
+                                <?php
+                                $mail_field = array_filter($ticket->custom_fields, function($field) {
+                                    return ($field->name == "email" && !empty($field->text_value));
+                                });
 
-                        <tr><td class="collapsing"><?= $subtask->name ?></td>
-                            <td><?= $subtask->notes ?></td></tr>
+                                if (!empty($mail_field)) {
+                                    echo $mail_field[0]->text_value;
+                                }
+                                ?></td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
             <?php
-            var_dump($subtasks);
+            var_dump($tickets);
             ?>
         </div>
         <p>Réponse : </p>

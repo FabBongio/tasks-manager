@@ -72,7 +72,7 @@ class TicketTable {
         $param = [
             'name' => $titre,
             'notes' => $commentaire,
-            'custom_fields' => ['email' => $email],
+            'email' => $email,
             "projects" => $project[0]->id
         ];
         $client->tasks->createInWorkspace($personalProjects->id, $param);
@@ -108,7 +108,7 @@ class TicketTable {
             "projects" => $project[0]->id,
             'opt_fields' => 'notes, name, completed, custom_fields'
         ];
-
+        
         return $client->tasks->subtasks($id, $param, array('iterator_type' => false));
     }
 
