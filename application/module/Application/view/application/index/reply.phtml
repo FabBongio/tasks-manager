@@ -1,0 +1,26 @@
+<div class="ui basic modal">
+	<div class="content">
+		<?php
+		echo 'tasks :';
+		var_dump($ticket);
+		echo 'tasks ID:';
+		var_dump($ticketId);
+		echo 'subtasks :';
+		var_dump($subtasks);
+		?>
+		<p>Réponse : </p>
+		<div class="ui form">
+			<div class="field">
+				<textarea></textarea>
+				<div class="two wide column">
+				<button class="ui fluid button" type="submit" name="Repondre">Envoyer votre réponse</button>
+		</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('document').ready(function(){
+			$('.ui.basic.modal').modal('show');
+		});
+	</script>

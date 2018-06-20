@@ -1,0 +1,26 @@
+<?php
+
+$title = 'Nouveau Ticket';
+$this->headTitle($title);
+?>
+
+	<form class="ui form" method="post" action="/user/submit">
+<div class="ui centered grid">
+	<div class="row">
+		<div class="eight wide column">
+			<div class="field">
+				<label>Titre</label>
+				<input type="text" name="Titre" placeholder="Titre">
+			</div>
+			<div class="field">
+				<label>Commentaire</label>
+				<input type="text" name="Commentaire" placeholder="Commentaire">
+			</div>
+		</div>
+	</div>
+
+		<div class="two wide column">
+				<button class="ui fluid button" type="submit" name="Envoyer">Envoyer</button>
+		</div>
+</div>
+	</form>

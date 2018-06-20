@@ -1,0 +1,70 @@
+<?= $this->doctype() ?>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('ZF Skeleton Application')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?= $this->headMeta()
+    ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+    ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <!-- Le styles -->
+    <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+    ->prependStylesheet($this->basePath('css/semantic.min.css'))
+    ?>
+
+    <!-- Scripts -->
+    <?= $this->headScript()
+    ->prependFile($this->basePath('js/semantic.min.js'))
+    ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+    ?>
+</head>
+<body>
+
+    <div class="ui menu">
+      <div class="header item">Skeleton Application</div>
+      <a class="item" href="http://zend.local/">Home</a>
+      <a class="item" href="http://zend.local/user">Nouveau Ticket</a>
+      <a class="item" href="http://zend.local/admin">Liste des Tickets</a>
+    </div>
+
+  <div class="ui container">
+    <?= $this->content ?>
+    <hr>
+    <footer>
+        <p>&copy; 2005 - <?= date('Y') ?> by Zend Technologies Ltd. All rights reserved.</p>
+    </footer>
+</div>
+<div id="modal"></div>
+<?= $this->inlineScript() ?>
+</body>
+</html>
+
+<script type="text/javascript">
+$('document').ready(function(){
+
+    var loading = false;
+
+    $('.modal-btn').click(function(e) {
+        
+        if(loading === true) {
+            return;
+        }
+        loading = true;
+
+        var btn = $(this);
+
+        $.get(btn.attr("href"), function( content ) {
+            $(".modals.page").remove();
+            $('#modal').html(content);
+            
+            loading = false;
+        });
+
+        e.preventDefault();
+    });
+
+});
+</script>
