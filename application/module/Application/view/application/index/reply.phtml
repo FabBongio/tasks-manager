@@ -1,13 +1,8 @@
-<div class="ui modal">
-    <div class="header">
-        <h1>Tâche principal :</h1>
-    </div>
-    <div class="content">
-        <div class="field">
-            <?php
-            echo '<h3>' . $main_ticket->name . ' : </h3></br>';
-            echo $main_ticket->notes . '</br>';
-            ?>
+
+<form class="ui form" method="post" action="/admin/send-Email">
+    <div class="ui modal">
+
+        <div class="content">
             <table class="ui celled striped table">
                 <thead>
                     <tr><th colspan="2">
@@ -28,31 +23,69 @@
                                 });
 
                                 if (!empty($mail_field)) {
-                                    echo $mail_field[0]->text_value;
+                                    $mail = $mail_field[0]->text_value;
+                                    echo $mail;
+                                    echo '<input type="hidden" name="emails[]" value="'.$mail.'">';
                                 }
                                 ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <?php
-            var_dump($tickets);
-            ?>
-        </div>
-        <p>Réponse : </p>
-        <div class="ui form">
+            <br>
+            <h1>Réponse : </h1>
             <div class="field">
-                <textarea></textarea>
-                <div class="two wide column">
-                    <button class="ui fluid button" type="submit" name="Repondre">Envoyer votre réponse</button>
-                </div>
+                <textarea name="reply"></textarea>
             </div>
         </div>
+        <div class="actions">
+            <div class="ui positive right labeled icon button">
+                Valider
+                <i class="checkmark icon"></i>
+            </div>
+
+        </div>
+
     </div>
-</div>
+</form>
+
+
+<?php
+var_dump($tickets);
+?>
 
 <script type="text/javascript">
     $('document').ready(function () {
+        
+        var form_settings = {
+            on: 'submit',
+            inline: true,
+            fields: {
+                reply: 'empty'
+            },
+            onSuccess: function (event, values) {
+                var url = $('.ui.form').attr('action');
+                
+                $.post(url, values, function(data) {
+                    
+                    console.log(data);
+                });
+                
+            },
+            onFailure: function () {
+                console.log("fail");
+            }
+        }
+
+        $('.ui.form').form(form_settings);
+
+        $('.ui.modal').modal({
+            onApprove: function () {
+                $('.ui.form').form('validate form');
+                return false;
+            }
+        });
         $('.ui.modal').modal('show');
     });
+
 </script>

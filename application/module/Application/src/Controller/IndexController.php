@@ -14,6 +14,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Request;
 use RuntimeException;
+use Zend\Mail\Message as MailMessage;
+use Zend\Mail\Transport\Sendmail as MailSender;
 
 class IndexController extends AbstractActionController {
 
@@ -73,6 +75,27 @@ class IndexController extends AbstractActionController {
         $viewModel->setTerminal(true);
 
         return $viewModel;
+    }
+
+    public function sendEmailAction() {
+        $reponse = $this->getRequest()->getPost('reply');
+        $emails = $this->getRequest()->getPost('emails');
+
+        $mail = new MailMessage();
+        $mail->setBody($reponse);
+        
+        /*Email source*/
+        $mail->setFrom('fabrice.bongio@gmail.com');
+        
+        /*Emails destinataires*/
+        foreach ($emails as $email) {
+            $mail->addTo($email);
+        }
+        /*Objet des mails*/
+        $mail->setSubject('Réponse à votre ticket');
+
+        $transport = new Mail\Transport\Sendmail();
+        $transport->send($mail);
     }
 
 }

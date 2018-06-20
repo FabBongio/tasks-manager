@@ -52,7 +52,7 @@ class TicketTable {
             'opt_fields' => 'notes, name, completed, custom_fields'
         ];
 
-        return $client->tasks->findById($id, [], array('iterator_type' => false));
+        return $client->tasks->findById($id, $param, array('iterator_type' => false));
     }
 
     public function saveTicket(Ticket $ticket) {
