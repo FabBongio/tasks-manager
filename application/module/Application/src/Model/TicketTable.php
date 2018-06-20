@@ -97,7 +97,7 @@ class TicketTable
 
     $param =[
       "projects" => $project[0]->id,
-      'opt_fields' => 'notes, name, completed'
+      'opt_fields' => 'notes, name, completed, custom_fields'
     ];
 
     return $client->tasks->subtasks($id, $param, array('iterator_type' => false));

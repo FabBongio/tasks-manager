@@ -3,23 +3,19 @@ $title = 'Liste de ticket';
 $this->headTitle($title);
 var_dump($tickets);
 var_dump($tickets->data);
-var_dump($subtasks);
 ?>
 <table class="ui celled padded table">
 <tr>
     <th class="single line">Titre</th>
     <th class="single line">Commentaire</th>
-    <th class="single line">Sous-tâche</th>
-    <th class="single line"></th>
 </tr>
 <?php 
 foreach ($tickets->data as $key => $ticket) : ?>
     <tr>
         <td><?= $this->escapeHtml($ticket->name) ?></td>
         <td><?= $this->escapeHtml($ticket->notes) ?></td>
+        
         <?php 
-
-      
         if ($ticket->completed){
         	echo '<td><button class="ui positive button modal-btn">Terminé</button></td>';
         }
