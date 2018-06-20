@@ -14,7 +14,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Request;
 use RuntimeException;
-use Asana\Client;
 
 
 class IndexController extends AbstractActionController
