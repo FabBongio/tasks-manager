@@ -1,8 +1,6 @@
 <?php
 $title = 'Liste de ticket';
 $this->headTitle($title);
-var_dump($tickets);
-var_dump($tickets->data);
 ?>
 <table class="ui celled padded table">
 <tr>
@@ -26,3 +24,7 @@ foreach ($tickets->data as $key => $ticket) : ?>
     </tr>
 <?php endforeach; ?>
 </table>
+<?php
+var_dump($tickets);
+var_dump($tickets->data);
+?>

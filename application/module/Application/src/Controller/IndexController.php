@@ -47,10 +47,12 @@ class IndexController extends AbstractActionController
 	{
 		$titre = $this->getRequest()->getPost('Titre');
 		$commentaire = $this->getRequest()->getPost('Commentaire');
+                $email = $this->getRequest()->getPost('Email');
 
 		$data =[
 			'titre' => $titre,
-			'commentaire' => $commentaire
+			'commentaire' => $commentaire,
+                        'email' => $email
 		];
 		$ticket = new Ticket($data);
 		$this->table->saveTicket($ticket);

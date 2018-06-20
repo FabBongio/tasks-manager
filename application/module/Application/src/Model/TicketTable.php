@@ -7,99 +7,109 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Asana\Client;
 
-class TicketTable 
-{
-  private $client;
+class TicketTable {
 
-  public function __construct() {
-    $this->client = \Asana\Client::accessToken('0/2f8220a53869893b56151edef6523f71');
-  }
+    private $client;
 
-  public function fetchAll()
-  {
+    public function __construct() {
+        $this->client = \Asana\Client::accessToken('0/2f8220a53869893b56151edef6523f71');
+    }
 
-    $client = $this->client;
-    $me = $client->users->me();
-    $personalProjectsArray = array_filter($me->workspaces, function($item) { return $item->name === 'ilabs.fr'; });
-    $personalProjects = array_pop($personalProjectsArray);
+    public function fetchAll() {
 
-    $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
+        $client = $this->client;
+        $me = $client->users->me();
+        $personalProjectsArray = array_filter($me->workspaces, function($item) {
+            return $item->name === 'ilabs.fr';
+        });
+        $personalProjects = array_pop($personalProjectsArray);
 
-    $param=[
-      "project" => $project[0]->id,
-      'opt_fields' => 'notes, name, completed, custom_fields, parent'
-    ];
+        $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
 
-    return $client->tasks->findAll($param, array('iterator_type' => false));
+        $param = [
+            "project" => $project[0]->id,
+            'opt_fields' => 'notes, name, completed, custom_fields, parent'
+        ];
 
-  //          BDD
-  // return $this->tableGateway->select();
-  }
+        return $client->tasks->findAll($param, array('iterator_type' => false));
 
-  public function getTicket($id)
-  {
-    $client = $this->client;
-    $me = $client->users->me();
-    $personalProjectsArray = array_filter($me->workspaces, function($item) { return $item->name === 'ilabs.fr'; });
-    $personalProjects = array_pop($personalProjectsArray);
+        //          BDD
+        // return $this->tableGateway->select();
+    }
 
-    $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
+    public function getTicket($id) {
+        $client = $this->client;
+        $me = $client->users->me();
+        $personalProjectsArray = array_filter($me->workspaces, function($item) {
+            return $item->name === 'ilabs.fr';
+        });
+        $personalProjects = array_pop($personalProjectsArray);
 
-    $param=[
-      'project' => $project[0]->id,
-      'opt_fields' => 'notes, name, completed, custom_fields'
-    ];
-    
-    return $client->tasks->findById($id, [], array('iterator_type' => false));
-  }
+        $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
 
-  public function saveTicket(Ticket $ticket)
-  {
-    //              Asana
-    $client = $this->client;
-    $me = $client->users->me();
-    $personalProjectsArray = array_filter($me->workspaces, function($item) { return $item->name === 'ilabs.fr'; });
-    $personalProjects = array_pop($personalProjectsArray);
-    $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
+        $param = [
+            'project' => $project[0]->id,
+            'opt_fields' => 'notes, name, completed, custom_fields'
+        ];
 
-    $param =[
-      'name' => $titre,
-      'notes' => $commentaire,
-      "projects" => $project[0]->id
-    ];
-    $client->tasks->createInWorkspace($personalProjects->id, $param);
+        return $client->tasks->findById($id, [], array('iterator_type' => false));
+    }
 
-    //          BDD
-    // $id = (int) $ticket->id;
-    // if ($id == 0) {
-    // $this->tableGateway->insert($data);
-    // } else {
-    //     if ($this->getTicket($id)) {
-    //         $this->tableGateway->update($data, array('id' => $id));
-    //     } else {
-    //         throw new \Exception('ticket id does not exist');
-    //     }
-    // }
-  }
+    public function saveTicket(Ticket $ticket) {
+        
+        $titre = $ticket->titre;
+        $commentaire = $ticket->commentaire;
+        $email = $ticket->email;
+        //              Asana
+        $client = $this->client;
+        $me = $client->users->me();
+        $personalProjectsArray = array_filter($me->workspaces, function($item) {
+            return $item->name === 'ilabs.fr';
+        });
+        $personalProjects = array_pop($personalProjectsArray);
+        $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
 
-  public function deleteTicket($id)
-  {
-    $client->tasks->delete($id);
-  }
+        $param = [
+            'name' => $titre,
+            'notes' => $commentaire,
+            'custom_fields' => ['email' => $email],
+            "projects" => $project[0]->id
+        ];
+        $client->tasks->createInWorkspace($personalProjects->id, $param);
 
-  public function getSubtasks($id)
-  {
-    $client = $this->client;
-    $me = $client->users->me();
-    $personalProjectsArray = array_filter($me->workspaces, function($item) { return $item->name === 'ilabs.fr'; });
-    $personalProjects = array_pop($personalProjectsArray);
-    $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
+        //          BDD
+        // $id = (int) $ticket->id;
+        // if ($id == 0) {
+        // $this->tableGateway->insert($data);
+        // } else {
+        //     if ($this->getTicket($id)) {
+        //         $this->tableGateway->update($data, array('id' => $id));
+        //     } else {
+        //         throw new \Exception('ticket id does not exist');
+        //     }
+        // }
+    }
 
-    $param =[
-      "projects" => $project[0]->id,
-      'opt_fields' => 'notes, name, completed, custom_fields'
-    ];
+    public function deleteTicket($id) {
+        $client = $this->client;
+        $client->tasks->delete($id);
+    }
 
-    return $client->tasks->subtasks($id, $param, array('iterator_type' => false));
-  }
+    public function getSubtasks($id) {
+        $client = $this->client;
+        $me = $client->users->me();
+        $personalProjectsArray = array_filter($me->workspaces, function($item) {
+            return $item->name === 'ilabs.fr';
+        });
+        $personalProjects = array_pop($personalProjectsArray);
+        $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
+
+        $param = [
+            "projects" => $project[0]->id,
+            'opt_fields' => 'notes, name, completed, custom_fields'
+        ];
+
+        return $client->tasks->subtasks($id, $param, array('iterator_type' => false));
+    }
+
 }
