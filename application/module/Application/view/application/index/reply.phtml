@@ -1,4 +1,3 @@
-
 <form class="ui form" method="post" action="http://zend.local/send-email">
     <div class="ui modal">
         <div class="content">
@@ -24,7 +23,9 @@
                                 if (!empty($mail_field)) {
                                     $mail = $mail_field[0]->text_value;
                                     echo $mail;
-                                    echo '<input type="hidden" name="emails[]" value="'.$mail.'">';
+                                    echo '<input type="hidden" name="emails[]" value="' . $mail . '">';
+                                    $listId[] = $ticket->id;
+                                    echo '<input type="hidden" name="$listId[]" value="' . $listId . '">';
                                 }
                                 ?>
                             </td>
@@ -45,18 +46,15 @@
             </div>
 
         </div>
-
     </div>
 </form>
 
 
-<?php
-var_dump($tickets);
-?>
+
 
 <script type="text/javascript">
     $('document').ready(function () {
-        
+
         var form_settings = {
             on: 'submit',
             inline: true,
@@ -65,12 +63,12 @@ var_dump($tickets);
             },
             onSuccess: function (event, values) {
                 var url = $('.ui.form').attr('action');
-                
-                $.post(url, values, function(data) {
-                    
+
+                $.post(url, values, function (data) {
+
                     console.log(data);
                 });
-                
+
             },
             onFailure: function () {
                 console.log("fail");

@@ -10,17 +10,11 @@ $this->headTitle($title);
 <?php 
 foreach ($tickets->data as $key => $ticket) : ?>
     <tr>
+        <?php if(!$ticket->completed): ?>
         <td><?= $this->escapeHtml($ticket->name) ?></td>
         <td><?= $this->escapeHtml($ticket->notes) ?></td>
-        
-        <?php 
-        if ($ticket->completed){
-        	echo '<td><button class="ui positive button modal-btn">Terminé</button></td>';
-        }
-        else{
-        echo "<td><button class='ui negative button modal-btn' href='http://zend.local/admin/reply/$ticket->id'>Répondre</button></td>";
-        }
-        ?>
+        <td><button class='ui negative button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</button></td>
+        <?php endif; ?>
     </tr>
 <?php endforeach; ?>
 </table>

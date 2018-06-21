@@ -111,5 +111,10 @@ class TicketTable {
         
         return $client->tasks->subtasks($id, $param, array('iterator_type' => false));
     }
+    
+    public function completeTicket($id){
+        $ticket = $this->getTicket($id);
+        $ticket->completed = true;
+    }
 
 }
