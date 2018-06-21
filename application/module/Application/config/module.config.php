@@ -44,6 +44,16 @@ return [
                     ],
                 ],
             ],
+            'sendEmail' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/send-email',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'send-email',
+                    ],
+                ],
+            ],
         ],
     ],
     // 'controllers' => [

@@ -1,7 +1,6 @@
 
-<form class="ui form" method="post" action="/admin/send-Email">
+<form class="ui form" method="post" action="http://zend.local/send-email">
     <div class="ui modal">
-
         <div class="content">
             <table class="ui celled striped table">
                 <thead>
@@ -27,7 +26,8 @@
                                     echo $mail;
                                     echo '<input type="hidden" name="emails[]" value="'.$mail.'">';
                                 }
-                                ?></td>
+                                ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

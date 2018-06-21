@@ -16,6 +16,9 @@ use Zend\Http\Request;
 use RuntimeException;
 use Zend\Mail\Message as MailMessage;
 use Zend\Mail\Transport\Sendmail as MailSender;
+use Zend\Stdlib\Response as HttpResponse;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class IndexController extends AbstractActionController {
 
@@ -78,24 +81,42 @@ class IndexController extends AbstractActionController {
     }
 
     public function sendEmailAction() {
-        $reponse = $this->getRequest()->getPost('reply');
+        $message = $this->getRequest()->getPost('reply');//Message du mail
         $emails = $this->getRequest()->getPost('emails');
 
-        $mail = new MailMessage();
-        $mail->setBody($reponse);
+        $sujet = 'Réponse à votre ticket'; //Sujet du mail
         
-        /*Email source*/
-        $mail->setFrom('fabrice.bongio@gmail.com');
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->IsHTML();
+        $mail->Host = 'localhost';
+        $mail->SMTPDebug = 0;
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'ssl';
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Port = 465;
+        $mail->Username = 'fabbongio@gmail.com'; //email pour se connecter
+        $mail->Password = 'dCuh1T1I'; //ton mdp gmail
+        $mail->SetFrom('fabbongio@gmail.com');//Email source
+        $mail->AddReplyTo('fabbongio@gmail.com');
         
-        /*Emails destinataires*/
+        $mail->CharSet = "utf-8";
+        $mail->Subject = $sujet;
+        $mail->Body = $message; 
+        //Emails destinataires
         foreach ($emails as $email) {
-            $mail->addTo($email);
+            $mail->AddAddress($email);
         }
-        /*Objet des mails*/
-        $mail->setSubject('Réponse à votre ticket');
+        
+         if(!$mail->Send()){
+                echo 'E-mail non envoyé ';
+                echo 'Mailer error:'.$mail->ErrorInfo;
+            }else{
+                echo 'Message envoyé';
+            }
 
-        $transport = new Mail\Transport\Sendmail();
-        $transport->send($mail);
+
+        return new HttpResponse();
     }
 
 }
