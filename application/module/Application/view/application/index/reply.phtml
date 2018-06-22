@@ -23,9 +23,9 @@
                                 if (!empty($mail_field)) {
                                     $mail = $mail_field[0]->text_value;
                                     echo $mail;
+                                    $id = $ticket->id;
                                     echo '<input type="hidden" name="emails[]" value="' . $mail . '">';
-                                    $listId[] = $ticket->id;
-                                    echo '<input type="hidden" name="$listId[]" value="' . $listId . '">';
+                                    echo '<input type="hidden" name="listId[]" value="' . $id . '">';
                                 }
                                 ?>
                             </td>

@@ -113,8 +113,31 @@ class TicketTable {
     }
     
     public function completeTicket($id){
-        $ticket = $this->getTicket($id);
-        $ticket->completed = true;
+        //update le ticket sur asana
+       $client = $this->client;
+       $param = [
+            "completed" => true
+        ];
+        $client->tasks->update($id, $param);
+    }
+    
+    public function getCustom($id){
+        $client = $this->client;
+        
+        $me = $client->users->me();
+        $personalProjectsArray = array_filter($me->workspaces, function($item) {
+            return $item->name === 'ilabs.fr';
+        });
+        $personalProjects = array_pop($personalProjectsArray);
+
+        $project = $client->projects->findByWorkspace($personalProjects->id, null, array('iterator_type' => false, 'page_size' => null))->data;
+
+        $param = [
+            'project' => $project[0]->id,
+        ];
+        
+        
+        return $client->custom_fields->findById($id, $param);
     }
 
 }

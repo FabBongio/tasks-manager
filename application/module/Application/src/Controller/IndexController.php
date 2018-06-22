@@ -39,6 +39,7 @@ class IndexController extends AbstractActionController {
     public function adminAction() {
         return new ViewModel([
             'tickets' => $this->table->fetchAll(),
+            'custom_fields' => $this->table->getCustom('715802023054510')
         ]);
     }
 
@@ -83,7 +84,7 @@ class IndexController extends AbstractActionController {
     public function sendEmailAction() {
         $message = $this->getRequest()->getPost('reply');//Message du mail
         $emails = $this->getRequest()->getPost('emails');
-        $listId = $this->getRequest()->getPost('$listId');
+        $listId = $this->getRequest()->getPost('listId');
 
         $sujet = 'Réponse à votre ticket'; //Sujet du mail
         
@@ -97,7 +98,7 @@ class IndexController extends AbstractActionController {
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = 465;
         $mail->Username = 'fabbongio@gmail.com'; //email pour se connecter
-        $mail->Password = '*******'; //ton mdp gmail
+        $mail->Password = '2RW24F37'; //ton mdp gmail
         $mail->SetFrom('fabbongio@gmail.com');//Email source
         $mail->AddReplyTo('fabbongio@gmail.com');
         
@@ -114,8 +115,10 @@ class IndexController extends AbstractActionController {
                 echo 'Mailer error:'.$mail->ErrorInfo;
             }else{
                 echo 'Message envoyé';
+                
+                
                 foreach($listId as $id){
-                    $this->table->completeTicket($id);
+                    var_dump($this->table->completeTicket($id));
                 }
             }
 

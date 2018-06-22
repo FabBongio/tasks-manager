@@ -10,7 +10,7 @@ $this->headTitle($title);
 <?php 
 foreach ($tickets->data as $key => $ticket) : ?>
     <tr>
-        <?php if(!$ticket->completed): ?>
+        <?php if($ticket->completed== false): ?>
         <td><?= $this->escapeHtml($ticket->name) ?></td>
         <td><?= $this->escapeHtml($ticket->notes) ?></td>
         <td><button class='ui negative button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</button></td>
@@ -19,6 +19,6 @@ foreach ($tickets->data as $key => $ticket) : ?>
 <?php endforeach; ?>
 </table>
 <?php
-var_dump($tickets);
 var_dump($tickets->data);
+var_dump($custom_fields);
 ?>
