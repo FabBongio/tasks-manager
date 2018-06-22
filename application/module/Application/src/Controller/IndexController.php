@@ -82,12 +82,20 @@ class IndexController extends AbstractActionController {
     }
 
     public function sendEmailAction() {
-        $message = $this->getRequest()->getPost('reply');//Message du mail
-        $emails = $this->getRequest()->getPost('emails');
-        $listId = $this->getRequest()->getPost('listId');
-
+        $message = $this->getRequest()->getPost('reply'); //Message du mail
+        $emails = $this->getRequest()->getPost('emails'); //Liste des emails destinataires
+        $listId = $this->getRequest()->getPost('listId'); //Liste des id des tâches à mettre en terminée
         $sujet = 'Réponse à votre ticket'; //Sujet du mail
         
+        $from = 'fabbongio@gmail.com'; //email source (celle liée à $username)
+        
+        $username = 'fabbongio@gmail.com'; //email ou nom d'utilisateur 
+        $password = ''; //et mot de passe pour te connecter à ton compte gmail
+        
+        $host = 'smtp.gmail.com'; //le service utilisé pour l'envoie de mail (pour gmail : smtp.gmail.com)
+        $port = 465; //le port du service utilisé (pout gmail : 25 ou 465)
+        
+
         $mail = new PHPMailer();
         $mail->IsSMTP();
         $mail->IsHTML();
@@ -95,32 +103,32 @@ class IndexController extends AbstractActionController {
         $mail->SMTPDebug = 0;
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = 'ssl';
-        $mail->Host = 'smtp.gmail.com';
-        $mail->Port = 465;
-        $mail->Username = 'fabbongio@gmail.com'; //email pour se connecter
-        $mail->Password = '2RW24F37'; //ton mdp gmail
-        $mail->SetFrom('fabbongio@gmail.com');//Email source
-        $mail->AddReplyTo('fabbongio@gmail.com');
-        
+        $mail->Host = $host;
+        $mail->Port = $port;
+        $mail->Username = $username;
+        $mail->Password = $password; 
+        $mail->SetFrom($from);
+
         $mail->CharSet = "utf-8";
         $mail->Subject = $sujet;
-        $mail->Body = $message; 
+        $mail->Body = $message;
         //Emails destinataires
         foreach ($emails as $email) {
             $mail->AddAddress($email);
         }
-        
-         if(!$mail->Send()){
-                echo 'E-mail non envoyé ';
-                echo 'Mailer error:'.$mail->ErrorInfo;
-            }else{
-                echo 'Message envoyé';
-                
-                
-                foreach($listId as $id){
-                    var_dump($this->table->completeTicket($id));
-                }
+
+        //Envoie du mail
+        if (!$mail->Send()) {
+            //Si pas envoyé
+            echo 'E-mail non envoyé ';
+            echo 'Mailer error:' . $mail->ErrorInfo;
+        } else {
+            //Si envoyé
+            echo 'Message envoyé';
+            foreach ($listId as $id) {
+                $this->table->completeTicket($id);
             }
+        }
 
 
         return new HttpResponse();

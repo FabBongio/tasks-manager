@@ -118,7 +118,7 @@ class TicketTable {
        $param = [
             "completed" => true
         ];
-        $client->tasks->update($id, $param);
+        return $client->tasks->update($id, $param);
     }
     
     public function getCustom($id){
