@@ -36,18 +36,19 @@ class IndexController extends AbstractActionController {
         
     }
 
+    //                      admninAction() : affiche 
     public function adminAction() {
         return new ViewModel([
             'tickets' => $this->table->fetchAll(),
-            'custom_fields' => $this->table->getCustom('715802023054510')
+            'sections' => $this->table->getSections()
         ]);
     }
 
+    //                      submitAction() : sauvegarde le ticket
     public function submitAction() {
         $titre = $this->getRequest()->getPost('Titre');
         $commentaire = $this->getRequest()->getPost('Commentaire');
         $email = $this->getRequest()->getPost('Email');
-
         $data = [
             'titre' => $titre,
             'commentaire' => $commentaire,
@@ -57,6 +58,7 @@ class IndexController extends AbstractActionController {
         $this->table->saveTicket($ticket);
     }
 
+    //                      replyAction() : affiche le formulaire de réponse au ticket
     public function replyAction() {
 
         $ticketId = $this->params()->fromRoute('id_ticket');
@@ -65,12 +67,6 @@ class IndexController extends AbstractActionController {
 
         $tickets = $subtasks->data;
         array_unshift($tickets, $mainTicket);
-
-//        $tickets = array_filter($tickets, function($t) {
-//            return !empty(array_filter($t->custom_fields, function($field) {
-//               return ($field->name == "email" && !empty($field->text_value));
-//            }));
-//        });
 
         $viewModel = new ViewModel([
             'main_ticket' => $mainTicket,
@@ -81,19 +77,28 @@ class IndexController extends AbstractActionController {
         return $viewModel;
     }
 
+    //                      sendEmail() permet d'envoyer les mails 
     public function sendEmailAction() {
-        $message = $this->getRequest()->getPost('reply'); //Message du mail
-        $emails = $this->getRequest()->getPost('emails'); //Liste des emails destinataires
-        $listId = $this->getRequest()->getPost('listId'); //Liste des id des tâches à mettre en terminée
+        
+        //récupération du message, des emails destinataires et des id des tâches
+        $message = $this->getRequest()->getPost('reply');
+        $emails = $this->getRequest()->getPost('emails');
+        $listId = $this->getRequest()->getPost('listId');
+        
+        
         $sujet = 'Réponse à votre ticket'; //Sujet du mail
         
-        $from = 'fabbongio@gmail.com'; //email source (celle liée à $username)
         
-        $username = 'fabbongio@gmail.com'; //email ou nom d'utilisateur 
-        $password = ''; //et mot de passe pour te connecter à ton compte gmail
         
-        $host = 'smtp.gmail.com'; //le service utilisé pour l'envoie de mail (pour gmail : smtp.gmail.com)
-        $port = 465; //le port du service utilisé (pout gmail : 25 ou 465)
+        //Connexion au compte source des mails
+        $username = 'fabbongio@gmail.com'; 
+        $password = '';
+        
+        $from = 'fabbongio@gmail.com'; //email source
+        
+        //le service utilisé pour l'envoie de mail (pour gmail : smtp.gmail.com et port 465 ou 25)
+        $host = 'smtp.gmail.com';
+        $port = 465; 
         
 
         $mail = new PHPMailer();
@@ -128,6 +133,7 @@ class IndexController extends AbstractActionController {
             foreach ($listId as $id) {
                 $this->table->completeTicket($id);
             }
+            
         }
 
 

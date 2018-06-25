@@ -2,23 +2,34 @@
 $title = 'Liste de ticket';
 $this->headTitle($title);
 ?>
-<table class="ui celled padded table">
-<tr>
-    <th class="single line">Titre</th>
-    <th class="single line">Commentaire</th>
-</tr>
-<?php 
-foreach ($tickets->data as $key => $ticket) : ?>
-    <tr>
-        <?php if($ticket->completed== false): ?>
-        <td><?= $this->escapeHtml($ticket->name) ?></td>
-        <td><?= $this->escapeHtml($ticket->notes) ?></td>
-        <td><button class='ui negative button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</button></td>
-        <?php endif; ?>
-    </tr>
-<?php endforeach; ?>
+<div class="ui center aligned container">
+    <h1 class="ui green header">Liste des tickets</h1>
+</div>
+<table class="ui compact celled definition table">
+    <thead>
+        <tr>
+            <th></th>
+            <th><h2>Titre</h2></th>
+            <th colspan="2"><h2>Commentaire</h2></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($tickets->data as $key => $ticket) : ?>
+            <tr>
+                <?php if ($ticket->completed == false && $ticket->memberships[0]->section == null): ?>
+                    <td class="collapsing">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox"> <label></label>
+                        </div>
+                    </td>
+                    <td><?= $this->escapeHtml($ticket->name) ?></td>
+                    <td><?= $this->escapeHtml($ticket->notes) ?></td>
+                    <td class="right aligned"><button class='ui negative button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</button></td>
+                <?php endif; ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
-<?php
-var_dump($tickets->data);
-var_dump($custom_fields);
-?>
+
+<!--Faire la fonctionnalité de ce bouton-->
+<button class='ui blue button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</button>

@@ -1,20 +1,13 @@
-<form class="ui form" method="post" action="http://zend.local/send-email">
-    <div class="ui modal">
+<div class="ui modal">
+    <form class="ui form" method="post" action="http://zend.local/send-email">
         <div class="content">
-            <table class="ui celled striped table">
-                <thead>
-                    <tr><th colspan="2">
-                            <h3>Tâche(s)</h3>
-                        </th>
-                        <th>Mail</th>
-                    </tr></thead>
-                <tbody>
-
-                    <?php foreach ($tickets as $ticket) : ?>
-                        <tr>
-                            <td class="collapsing"><?= $ticket->name ?></td>
-                            <td><?= $ticket->notes ?></td>
-                            <td>
+            <div class="ui celled list">
+                <?php foreach ($tickets as $ticket) : ?>
+                    <div class="item">
+                        <div class="content">
+                            <div class="ui blue header"><?= $ticket->name ?></div>
+                            <?= $ticket->notes ?>
+                            <div class="right floated content">
                                 <?php
                                 $mail_field = array_filter($ticket->custom_fields, function($field) {
                                     return ($field->name == "email" && !empty($field->text_value));
@@ -28,28 +21,26 @@
                                     echo '<input type="hidden" name="listId[]" value="' . $id . '">';
                                 }
                                 ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
             <br>
-            <h1>Réponse : </h1>
+
             <div class="field">
+                <label><h1>Réponse : </h1></label>
                 <textarea name="reply"></textarea>
             </div>
         </div>
         <div class="actions">
             <div class="ui positive right labeled icon button">
                 Valider
-                <i class="checkmark icon"></i>
             </div>
-
         </div>
-    </div>
-</form>
-
-
+    </form> 
+</div>
 
 
 <script type="text/javascript">
