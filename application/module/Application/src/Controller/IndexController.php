@@ -140,4 +140,7 @@ class IndexController extends AbstractActionController {
         return new HttpResponse();
     }
 
+    public function loginAction(){
+        
+    }
 }

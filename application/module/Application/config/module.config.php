@@ -54,6 +54,16 @@ return [
                     ],
                 ],
             ],
+            'login' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/login',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'login',
+                    ],
+                ],
+            ],
         ],
     ],
     // 'controllers' => [
