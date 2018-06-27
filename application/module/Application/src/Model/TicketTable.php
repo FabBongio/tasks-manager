@@ -75,10 +75,16 @@ class TicketTable {
         ];
         
         $ticketCreated = $client->tasks->createInWorkspace($personalProjects->id, $param);
-
-        $paramTicketCreated = [
+        
+        $custom_fields = $ticketCreated->custom_fields;
+        foreach ($custom_fields as $custom_field) {
+            if ($custom_field->name == 'email') {
+                $idEmail = $custom_field->id;
+            }
+        }
+         $paramTicketCreated = [
                 'custom_fields' => [
-                    715802023054510 => $email   //id du custom_fields 'email'
+                    $idEmail => $email
                 ]
         ];
         $client->tasks->update($ticketCreated->id, $paramTicketCreated);

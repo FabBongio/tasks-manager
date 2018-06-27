@@ -1,7 +1,6 @@
 <div class="ui modal">
     <div class="content">
         <form class="ui form" method="post" action="http://zend.local/send-email">
-            <?php var_dump($tickets); ?>
             <div class="ui celled list">
                 <?php foreach ($tickets as $ticket) : ?>
                     <div class="item">
@@ -16,7 +15,7 @@
 
                                 if (!empty($mail_field)) {
                                     $mail = $mail_field[0]->text_value;
-                                    echo $mail;
+                                    echo 'E-mail : <p>' . $mail . '</p>';
                                     $id = $ticket->id;
                                     echo '<input type="hidden" name="emails[]" value="' . $mail . '">';
                                     echo '<input type="hidden" name="listId[]" value="' . $id . '">';
@@ -57,7 +56,7 @@
             },
             onSuccess: function (event, values) {
                 var url = $('.ui.form').attr('action');
-
+                $('.ui.modal').modal('hide');
                 $.post(url, values, function (data) {
 
                     console.log(data);

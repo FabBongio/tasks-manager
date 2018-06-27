@@ -22,6 +22,9 @@ use PHPMailer\PHPMailer\SMTP;
 
 class IndexController extends AbstractActionController {
 
+    /**
+     * @var TicketTable
+     */
     private $table;
 
     public function __construct(TicketTable $table) {
@@ -46,9 +49,9 @@ class IndexController extends AbstractActionController {
 
     //                      submitAction() : sauvegarde le ticket
     public function submitAction() {
-        $titre = $this->getRequest()->getPost('Titre');
-        $commentaire = $this->getRequest()->getPost('Commentaire');
-        $email = $this->getRequest()->getPost('Email');
+        $titre = $this->getRequest()->getPost('titre');
+        $commentaire = $this->getRequest()->getPost('commentaire');
+        $email = $this->getRequest()->getPost('email');
         $data = [
             'titre' => $titre,
             'commentaire' => $commentaire,
@@ -98,7 +101,7 @@ class IndexController extends AbstractActionController {
         $sujet = 'Réponse à votre ticket'; //Sujet du mail
         //Connexion au compte source des mails
         $username = 'fabbongio@gmail.com';
-        $password = '';
+        $password = 'Fab*3610*';
 
         $from = 'fabbongio@gmail.com'; //email source
         //le service utilisé pour l'envoie de mail (pour gmail : smtp.gmail.com et port 465 ou 25)

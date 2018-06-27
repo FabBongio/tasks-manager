@@ -3,28 +3,51 @@ $title = 'Nouveau Ticket';
 $this->headTitle($title);
 ?>
 
-<form class="ui form" method="post" action="/user/submit">
+<form class="ui form" action="/user/submit">
     <div class="ui centered grid">
-        <div class="row">
-            <div class="eight wide column">
-                <div class="field">
-                    <label>Email</label>
-                    <input type="text" name="Email" placeholder="Email">
-                </div>
-                <div class="field">
-                    <label>Titre</label>
-                    <input type="text" name="Titre" placeholder="Titre">
-                </div>
-                <div class="field">
-                    <label>Commentaire</label>
-                    <input type="text" name="Commentaire" placeholder="Commentaire">
-                </div>
+        <div class="eight wide column">
 
+            <div class="required field">    
+                <label>Email</label>
+                <input type="text" name="email" placeholder="Email">
             </div>
-        </div>
+            <div class="required field">
+                <label>Titre</label>
+                <input type="text" name="titre" placeholder="Titre">
+            </div>
+            <div class="field">
+                <label>Commentaire</label>
+                <input type="text" name="commentaire" placeholder="Commentaire">
+            </div>
 
-        <div class="three wide column">
-            <button class="ui fluid button" type="submit">Envoyer</button>
+            <div class="three wide row">
+                <button type="submit" class="ui submit fluid button">Envoyer</button>
+            </div>
         </div>
     </div>
 </form>
+
+<script>
+    $(document).ready(function () {
+
+        $('.ui.form').form({
+            on: 'submit',
+            inline: true,
+            fields: {
+                email: 'email',
+                titre: 'empty'
+            },
+            onSuccess: function (e, fields) {
+                $('.ui.submit.button').addClass("loading disabled");
+                var url = $(".ui.form").attr("action");
+                
+                $.post(url, fields, function (data) {
+                    $('#modal').html(data);
+                    $('.ui.submit.button').removeClass("loading disabled");
+                });
+                
+                return false;
+            }
+        });
+    });
+</script>
