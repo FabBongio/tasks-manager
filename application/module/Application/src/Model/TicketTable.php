@@ -81,7 +81,7 @@ class TicketTable {
                     715802023054510 => $email   //id du custom_fields 'email'
                 ]
         ];
-        $client->tasks->update($$ticketCreated->id, $paramTicketCreated);
+        $client->tasks->update($ticketCreated->id, $paramTicketCreated);
 
     }
 

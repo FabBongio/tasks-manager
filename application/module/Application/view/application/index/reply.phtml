@@ -1,6 +1,7 @@
 <div class="ui modal">
-    <form class="ui form" method="post" action="http://zend.local/send-email">
-        <div class="content">
+    <div class="content">
+        <form class="ui form" method="post" action="http://zend.local/send-email">
+            <?php var_dump($tickets); ?>
             <div class="ui celled list">
                 <?php foreach ($tickets as $ticket) : ?>
                     <div class="item">
@@ -33,18 +34,20 @@
                 <label><h1>Réponse : </h1></label>
                 <textarea name="reply"></textarea>
             </div>
+    </div>
+    <div class="actions">
+        <div class="ui positive right labeled icon button">
+            <i class="right arrow icon"></i>
+            Valider
         </div>
-        <div class="actions">
-            <div class="ui positive right labeled icon button">
-                Valider
-            </div>
-        </div>
-    </form> 
+
+        </form> 
+    </div>
 </div>
 
 
 <script type="text/javascript">
-    $('document').ready(function () {
+    $(document).ready(function () {
 
         var form_settings = {
             on: 'submit',

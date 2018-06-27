@@ -18,13 +18,13 @@ $this->headTitle($title);
             <tr>
                 <?php if ($ticket->completed == false && $ticket->memberships[0]->section == null): ?>
                     <td class="collapsing">
-                        <div class="ui toggle checkbox">
-                            <input type="checkbox"> <label></label>
+                        <div class="ui toggle ticket_toggle checkbox">
+                            <input type="checkbox" value="<?= $ticket->id ?>"><label></label>
                         </div>
                     </td>
                     <td><?= $this->escapeHtml($ticket->name) ?></td>
                     <td><?= $this->escapeHtml($ticket->notes) ?></td>
-                    <td class="right aligned"><button class='ui negative button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</button></td>
+                    <td class="right aligned"><a class='ui negative button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</a></td>
                 <?php endif; ?>
             </tr>
         <?php endforeach; ?>
@@ -32,4 +32,25 @@ $this->headTitle($title);
 </table>
 
 <!--Faire la fonctionnalité de ce bouton-->
-<button class='ui blue button modal-btn' href='http://zend.local/admin/reply/<?= $ticket->id ?>'>Répondre</button>
+<a class='ui blue button modal-btn' href="/admin/reply">Répondre</a>
+
+<script>
+    $(document).ready(function () {
+
+        var btn = $('.blue.button.modal-btn');
+
+        var toggles = $('.ticket_toggle');
+        toggles.checkbox({
+            onChange: function() {
+                var selected = [];
+                toggles.map(function () {
+                    if ($(this).checkbox('is checked')) {
+                        selected.push($(this).find('input').val());
+                    }
+                });
+
+                btn.data("data", {"selected": selected} );
+            }
+        });
+    });
+</script>

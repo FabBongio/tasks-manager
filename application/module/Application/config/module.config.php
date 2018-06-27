@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
  * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
@@ -9,6 +10,7 @@ namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
+
 // use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -17,50 +19,50 @@ return [
             'home' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route'    => '/',
+                    'route' => '/',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
+                        'action' => 'index',
                     ],
                 ],
             ],
             'user' => [
-                'type'    => Segment::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/user[/:action]',
+                    'route' => '/user[/:action]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'user',
+                        'action' => 'user',
                     ],
                 ],
             ],
             'admin' => [
-                'type'    => Segment::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/admin[/:action][/:id_ticket]',
+                    'route' => '/admin[/:action][/:id_ticket]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'admin',
+                        'action' => 'admin',
                     ],
                 ],
             ],
             'sendEmail' => [
-                'type'    => Segment::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/send-email',
+                    'route' => '/send-email',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'send-email',
+                        'action' => 'send-email',
                     ],
                 ],
             ],
             'login' => [
-                'type'    => Segment::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/login',
+                    'route' => '/login',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'login',
+                        'action' => 'login',
                     ],
                 ],
             ],
@@ -73,15 +75,15 @@ return [
     // ],
     'view_manager' => [
         'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
+        'display_exceptions' => true,
+        'doctype' => 'HTML5',
+        'not_found_template' => 'error/404',
+        'exception_template' => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'error/404' => __DIR__ . '/../view/error/404.phtml',
+            'error/index' => __DIR__ . '/../view/error/index.phtml',
         ],
         'template_path_stack' => [
             'index' => __DIR__ . '/../view',
