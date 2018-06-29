@@ -9,12 +9,16 @@ use Asana\Client;
 
 class TicketTable {
 
+    /**
+     *
+     * @var \Asana\Client
+     */
     private $client;
     private $me;
 
     public function __construct() {
         $this->client = \Asana\Client::accessToken('0/2f8220a53869893b56151edef6523f71');
-        $this->me = $this->client->me();
+        $this->me = $this->client->users->me();
     }
 
     public function fetchAll() {
