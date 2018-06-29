@@ -10,15 +10,17 @@ use Asana\Client;
 class TicketTable {
 
     private $client;
+    private $me;
 
-    public function __construct(TableGateway $tableGateway) {
+    public function __construct() {
         $this->client = \Asana\Client::accessToken('0/2f8220a53869893b56151edef6523f71');
+        $this->me = $this->client->me();
     }
 
     public function fetchAll() {
 
         $client = $this->client;
-        $me = $client->users->me();
+        $me = $this->me;
         $personalProjectsArray = array_filter($me->workspaces, function($item) {
             return $item->name === 'ilabs.fr';
         });
@@ -38,7 +40,7 @@ class TicketTable {
 
     public function getTicket($id) {
         $client = $this->client;
-        $me = $client->users->me();
+        $me = $this->me;
         $personalProjectsArray = array_filter($me->workspaces, function($item) {
             return $item->name === 'ilabs.fr';
         });
@@ -61,7 +63,7 @@ class TicketTable {
         $email = $ticket->email;
         //              Asana
         $client = $this->client;
-        $me = $client->users->me();
+        $me = $this->me;
         $personalProjectsArray = array_filter($me->workspaces, function($item) {
             return $item->name === 'ilabs.fr';
         });
@@ -91,14 +93,9 @@ class TicketTable {
 
     }
 
-    public function deleteTicket($id) {
-        $client = $this->client;
-        $client->tasks->delete($id);
-    }
-
     public function getSubtasks($id) {
         $client = $this->client;
-        $me = $client->users->me();
+        $me = $this->me;
         $personalProjectsArray = array_filter($me->workspaces, function($item) {
             return $item->name === 'ilabs.fr';
         });
@@ -124,7 +121,7 @@ class TicketTable {
 
     public function getSections() {
         $client = $this->client;
-        $me = $client->users->me();
+        $me = $this->me;
         $personalProjectsArray = array_filter($me->workspaces, function($item) {
             return $item->name === 'ilabs.fr';
         });

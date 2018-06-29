@@ -11,8 +11,6 @@ namespace Application;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 
-// use Zend\ServiceManager\Factory\InvokableFactory;
-
 return [
     'router' => [
         'routes' => [
@@ -26,6 +24,7 @@ return [
                     ],
                 ],
             ],
+            //route Nouveau ticket
             'user' => [
                 'type' => Segment::class,
                 'options' => [
@@ -36,6 +35,7 @@ return [
                     ],
                 ],
             ],
+            //route Liste des tickets
             'admin' => [
                 'type' => Segment::class,
                 'options' => [
@@ -45,35 +45,9 @@ return [
                         'action' => 'admin',
                     ],
                 ],
-            ],
-            'sendEmail' => [
-                'type' => Segment::class,
-                'options' => [
-                    'route' => '/send-email',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action' => 'send-email',
-                    ],
-                ],
-            ],
-            'login' => [
-                'type' => Segment::class,
-                'options' => [
-                    'route' => '/login[/:action]',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action' => 'login',
-                    ],
-                ],
-            ],
-            
+            ],      
         ],
     ],
-    // 'controllers' => [
-    //     'factories' => [
-    //         Controller\IndexController::class => InvokableFactory::class,
-    //     ],
-    // ],
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions' => true,
@@ -94,7 +68,6 @@ return [
         'factories' => [
             \Zend\Authentication\AuthenticationService::class 
                 => Service\Factory\AuthenticationServiceFactory::class,
-            // ...
         ],
     ],
 ];
