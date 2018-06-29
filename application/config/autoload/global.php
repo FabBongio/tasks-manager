@@ -15,6 +15,6 @@ return [
     'db' => [
     	'username' => 'root',
         'driver' => 'Pdo',
-        'dsn'    => 'mysql:dbname=dbticket;host=localhost',
+        'dsn'    => 'mysql:dbname=user;host=localhost',
     ],
 ];

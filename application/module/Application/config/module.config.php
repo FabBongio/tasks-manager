@@ -59,13 +59,14 @@ return [
             'login' => [
                 'type' => Segment::class,
                 'options' => [
-                    'route' => '/login',
+                    'route' => '/login[/:action]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action' => 'login',
                     ],
                 ],
             ],
+            
         ],
     ],
     // 'controllers' => [
@@ -87,6 +88,13 @@ return [
         ],
         'template_path_stack' => [
             'index' => __DIR__ . '/../view',
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            \Zend\Authentication\AuthenticationService::class 
+                => Service\Factory\AuthenticationServiceFactory::class,
+            // ...
         ],
     ],
 ];

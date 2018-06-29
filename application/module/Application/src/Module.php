@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
  * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
@@ -14,8 +15,8 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\MvcEvent as MvcEvent;
 use Zend\EventManager\EventInterface as EventInterface;
 
-class Module implements ConfigProviderInterface
-{
+class Module implements ConfigProviderInterface {
+
     const VERSION = '3.0.2dev';
 
     public function getConfig() {
@@ -44,7 +45,7 @@ class Module implements ConfigProviderInterface
             'factories' => [
                 Controller\IndexController::class => function($container) {
                     return new Controller\IndexController(
-                        $container->get(Model\TicketTable::class)
+                            $container->get(Model\TicketTable::class)
                     );
                 },
             ],
@@ -52,13 +53,14 @@ class Module implements ConfigProviderInterface
     }
 
     function onBootstrap(EventInterface $e) {
-  $application = $e->getApplication();
-  $eventManager = $application->getEventManager();
-  $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this,'onDispatchError'), 100);    
-}
- 
-function onDispatchError(MvcEvent $e) {
-  $viewModel = $e->getViewModel();
-  $viewModel->setTemplate('error/index.phtml');
-}
+        $application = $e->getApplication();
+        $eventManager = $application->getEventManager();
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 100);
+    }
+
+    function onDispatchError(MvcEvent $e) {
+        $viewModel = $e->getViewModel();
+        $viewModel->setTemplate('error/index.phtml');
+    }
+
 }

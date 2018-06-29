@@ -75,10 +75,9 @@ class IndexController extends AbstractActionController {
             $mainTicket = $this->table->getTicket($ticketId);
             $subtasks = $this->table->getSubtasks($ticketId);
             array_push($tickets, $mainTicket);
-            foreach ($subtasks->data as $subtask){
+            foreach ($subtasks->data as $subtask) {
                 array_push($tickets, $subtask);
             }
-            
         }
 
         $viewModel = new ViewModel([
@@ -145,10 +144,6 @@ class IndexController extends AbstractActionController {
 
 
         return new HttpResponse();
-    }
-
-    public function loginAction() {
-        
     }
 
 }

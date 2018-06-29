@@ -11,7 +11,7 @@ class TicketTable {
 
     private $client;
 
-    public function __construct() {
+    public function __construct(TableGateway $tableGateway) {
         $this->client = \Asana\Client::accessToken('0/2f8220a53869893b56151edef6523f71');
     }
 
@@ -133,4 +133,6 @@ class TicketTable {
 
         return $client->projects->sections($project[0]->id, [], array('iterator_type' => false));
     }
+    
+    
 }
